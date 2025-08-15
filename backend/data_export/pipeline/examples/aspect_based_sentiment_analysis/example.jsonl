@@ -1,0 +1,27 @@
+{
+    "id":1,
+    "text":"Terrible customer service.",
+    "entities":[
+        {
+            "id":1,
+            "label":"opinion",
+            "start_offset":0,
+            "end_offset":8
+        },
+        {
+            "id":2,
+            "label":"aspect",
+            "start_offset":9,
+            "end_offset":25
+        }
+    ],
+    "relations":[
+        {
+            "id":1,
+            "from_id":2,
+            "to_id":1,
+            "type":"negative"
+        }
+    ],
+    "Comments":[]
+}

@@ -1,0 +1,47 @@
+ARG PYTHON_VERSION="3.8.13-slim-bullseye"
+FROM python:${PYTHON_VERSION}
+
+WORKDIR /backend
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PATH="/root/.local/bin:${PATH}"
+
+RUN groupadd -g 61000 doccano \
+  && useradd -g 61000 -l -M -s /bin/false -u 61000 doccano
+
+# hadolint ignore=DL3013,DL3008
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    netcat=1.* \
+    libpq-dev=13.* \
+    unixodbc-dev=2.* \
+    g++=4:* \
+    curl \
+    python3-venv \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --upgrade pip==22.2.2 \
+  && pip install pipx \
+  && pipx install poetry \
+  && poetry config virtualenvs.create false
+
+COPY --chown=doccano:doccano backend/pyproject.toml backend/poetry.lock /backend/
+
+RUN poetry install --no-dev \
+  && pip install psycopg2-binary
+
+COPY --chown=doccano:doccano tools/ /opt/bin/
+
+RUN chmod +x /opt/bin/prod-django.sh \
+  && chmod +x /opt/bin/prod-celery.sh \
+  && chmod +x /opt/bin/prod-flower.sh
+
+RUN mkdir -p /backend/staticfiles \
+  && chown -R doccano:doccano /backend/
+
+COPY --chown=doccano:doccano ./backend/ /backend/
+USER doccano:doccano
+VOLUME /backend/staticfiles
+
+ENTRYPOINT ["/opt/bin/prod-django.sh"]

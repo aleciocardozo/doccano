@@ -1,0 +1,20 @@
+[
+    {
+        "id":1,
+        "text":"Terrible customer service.",
+        "label":["negative"],
+        "Comments":[]
+    },
+    {
+        "id":2,
+        "text":"Really great transaction.",
+        "label":["positive"],
+        "Comments":[]
+    },
+    {
+        "id":3,
+        "text":"Great price.",
+        "label":["positive"],
+        "Comments":[]
+    }
+]

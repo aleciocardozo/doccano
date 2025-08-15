@@ -1,0 +1,4 @@
+text;aspect;opinion;polarity;aspect_start;aspect_end;opinion_start;opinion_end
+"Terrible customer service.";customer service;Terrible;"negative";9;25;0;8
+"Really great transaction.";transaction;great;"positive";13;24;7;12
+"Great price.";price;Great;"positive";6;11;0;5

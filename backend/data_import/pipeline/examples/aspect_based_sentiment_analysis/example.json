@@ -1,0 +1,26 @@
+{
+  "ex_0522": {
+        "text": "The breakfast was limited and the location was inconvenient.",
+        "annotations": [
+            {
+                "category": "service",
+                "aspect": {
+                    "term": "breakfast",
+                    "location": [
+                        4,
+                        13
+                    ]
+                },
+                "sentiment": {
+                    "term": "limited",
+                    "location": [
+                        17,
+                        24
+                    ],
+                    "type": "explicit"
+                },
+                "polarity": "NEG"
+            }
+        ]
+    }
+}
