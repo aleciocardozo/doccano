@@ -222,19 +222,19 @@ class AspectBasedSentimentAnalysisDataset(Dataset):
             exclude_columns=["entities", "relations", "cats", "aspect", "category", "opinion", "polarity", 
                             "aspect_start", "aspect_end", "opinion_start", "opinion_end"],
         )
-        self.category_maker = LabelMaker(column="category", label_class=CategoryLabel)
+        self.category_maker = LabelMaker(column="cats", label_class=CategoryLabel)
         self.span_maker = LabelMaker(column="entities", label_class=SpanLabel)
         self.relation_maker = LabelMaker(column="relations", label_class=RelationLabel)
         
-        self.column_data = kwargs.get("column_data")
-        self.column_category = kwargs.get("column_category")
-        self.column_aspect = kwargs.get("column_aspect")
-        self.column_opinion = kwargs.get("column_opinion")
-        self.column_polarity = kwargs.get("column_polarity")
-        self.column_aspect_start = kwargs.get("column_aspect_start")
-        self.column_aspect_end = kwargs.get("column_aspect_end")
-        self.column_opinion_start = kwargs.get("column_opinion_start")
-        self.column_opinion_end = kwargs.get("column_opinion_end")
+        self.column_data = kwargs.get("column_data") or "text"
+        self.column_category = kwargs.get("column_category") or "category"
+        self.column_aspect = kwargs.get("column_aspect") or "aspect"
+        self.column_opinion = kwargs.get("column_opinion") or "opinion"
+        self.column_polarity = kwargs.get("column_polarity") or "polarity"
+        self.column_aspect_start = kwargs.get("column_aspect_start") or "aspect_start"
+        self.column_aspect_end = kwargs.get("column_aspect_end") or "aspect_end"
+        self.column_opinion_start = kwargs.get("column_opinion_start") or "opinion_start"
+        self.column_opinion_end = kwargs.get("column_opinion_end") or "opinion_end"
 
     def ensure_label_colors(self):
         for cat_type in CategoryType.objects.filter(project=self.project):
@@ -334,7 +334,7 @@ class AspectBasedSentimentAnalysisDataset(Dataset):
                             example_uuid = example_uuids[index]
                             categories_data.append({
                                 'example_uuid': example_uuid,
-                                'category': category
+                                'cats': category
                             })
                     
                     if categories_data:

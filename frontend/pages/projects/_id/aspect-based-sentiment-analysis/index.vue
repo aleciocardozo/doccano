@@ -18,7 +18,7 @@
         <v-card-title v-if="isQuadrupleExtraction">
           <label-group
             :labels="categoryTypes"
-            :annotations="category"
+            :annotations="categories"
             :single-label="exclusive"
             @add="addCategory"
             @remove="removeCategory"
@@ -132,7 +132,7 @@ export default {
       spanTypes: [],
       relations: [],
       relationTypes: [],
-      category: [],
+      categories: [],
       categoryTypes: [],
       project: {},
       enableAutoLabeling: false,
@@ -313,7 +313,7 @@ export default {
     },
 
     async listCategory(id) {
-      this.category = await this.$repositories.category.list(this.projectId, id)
+      this.categories = await this.$repositories.category.list(this.projectId, id)
     },
 
     async removeCategory(id) {
@@ -323,10 +323,10 @@ export default {
 
     async addCategory(labelId) {
       if (this.exclusive) {
-        for (const cat of this.category) {
+        for (const cat of this.categories) {
           await this.$repositories.category.delete(this.projectId, this.doc.id, cat.id)
         }
-        this.category = []
+        this.categories = []
       }
       const category = Category.create(labelId)
       await this.$repositories.category.create(this.projectId, this.doc.id, category)
@@ -336,7 +336,7 @@ export default {
     async addOrRemoveCategory(event) {
       if (this.isQuadrupleExtraction) {
         const labelId = parseInt(event.srcKey, 10)
-        const category = this.category.find((item) => item.label === labelId)
+        const category = this.categories.find((item) => item.label === labelId)
         if (category) {
           await this.removeCategory(category.id)
         } else {
